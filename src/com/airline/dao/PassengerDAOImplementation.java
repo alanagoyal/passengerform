@@ -103,6 +103,22 @@ public class PassengerDAOImplementation implements PassengerDAO {
 		return passenger;
 	}
 	
-	
+	public void throwSqlException() {
+		try {
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from faketable");
+			while (resultSet.next()) {
+				Passenger passenger = new Passenger();
+				passenger.setId(resultSet.getInt("id"));
+				passenger.setFirstName(resultSet.getString("firstName"));
+				passenger.setLastName(resultSet.getString("lastName"));
+			}
+			resultSet.close();
+			statement.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
